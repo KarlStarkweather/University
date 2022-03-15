@@ -1,0 +1,40 @@
+@{
+  Layout = "_Layout";
+}
+
+@model University.Models.Student
+
+<h2>Student Details</h2>
+<hr />
+<h3>@Html.DisplayNameFor(model => model.Name): @Html.DisplayFor(model => model.Name)</h3>
+
+@if(@Model.JoinEntities.Count == 0)
+{
+  <p>This student is not in any courses</p>
+}
+else
+{
+  <h4>Courses the student is in:</h4>
+  @foreach(var join in Model.JoinEntities)
+  {
+    @using (Html.BeginForm("DeleteCourse", "Students")) 
+    {
+      <p> 
+        <input type="submit" style="background-color: orange;" value="Remove"/>
+        - @join.Course.Title
+        @Html.Hidden("joinId", @join.CourseStudentId)
+         
+      </p>
+    }
+  }
+}
+<p>
+  @* <button>@Html.ActionLink("Back to list", "Index")</button>
+  <button>@Html.ActionLink("Edit Student", "Edit", new { id = Model.StudentId })</button>
+  <button>@Html.ActionLink("Delete Student", "Delete", new { id = Model.StudentId })</button>
+   *@
+  <a href='@Url.Action("Index")'><button>Back to list</button></a>
+  <a href='@Url.Action("Edit", new { id = Model.StudentId })'><button>Edit Student</button></a>
+  <a href='@Url.Action("Delete", new { id = Model.StudentId })'><button>Delete Student</button></a>
+  <a href='@Url.Action("AddCourse", new { id = Model.StudentId })'><button>Add a Course</button></a>
+</p>
